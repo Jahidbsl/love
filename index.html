@@ -1,53 +1,63 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="cupcake">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Love Proposal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>💖</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.2/dist/full.min.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    
+
     <style>
+        /* ফাস্ট মুভমেন্টের জন্য আপনার দেওয়া ট্রানজিশন */
         .moved {
             position: absolute !important;
-            transition: all 0.0s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.01s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 50;
         }
+
         .interaction-area {
-            height: 350px;
+            height: 380px;
             position: relative;
             width: 100%;
+            touch-action: none; /* মোবাইলে স্ক্রল আটকাবে যখন বাটনে টাচ লাগবে */
         }
-        #yes-btn:active {
-            transform: scale(0.9);
+
+        body {
+            touch-action: pan-x pan-y; /* স্মুথ মোবাইল এক্সপেরিয়েন্স */
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-pink-200 to-purple-200 flex items-center justify-center min-h-screen p-4">
 
-    <div class="card w-96 bg-base-100 shadow-2xl border-4 border-white rounded-[2.5rem] overflow-hidden transform transition-all">
+<body class="bg-pink-100 flex items-center justify-center min-h-screen p-4 overflow-hidden">
+
+    <div class="card w-full max-w-[350px] bg-base-100 shadow-2xl border-4 border-white rounded-[2.5rem] overflow-hidden">
         <figure class="px-10 pt-10">
-            <img id="main-gif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueGZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3JmVwPXYxX2ludGVybmFsX2dpZl9ieV9iZWlyZSZjdD1z/cLS1cfxvGOPVpf9g3y/giphy.gif" alt="Cute" class="w-48 h-48 object-contain" />
+            <img id="main-gif"
+                src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueGZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3bmZ3JmVwPXYxX2ludGVybmFsX2dpZl9ieV9iZWlyZSZjdD1z/cLS1cfxvGOPVpf9g3y/giphy.gif"
+                alt="Cute" class="w-48 h-48 object-contain" />
         </figure>
-        
-        <div class="card-body items-center text-center interaction-area">
-            <h2 id="display-text" class="card-title text-2xl font-bold text-pink-700 mb-8 transition-all duration-300">Do you love me? 🥰</h2>
-            
+
+        <div class="card-body items-center text-center interaction-area px-4">
+            <h2 id="display-text" class="card-title text-2xl font-black text-pink-700 mb-6 min-h-[60px]">
+                তুমি কি আমাকে ভালোবাসো? 🥰</h2>
+
             <div id="btn-container" class="flex justify-center gap-4 w-full h-20 items-start">
-                <button id="yes-btn" class="btn btn-secondary px-10 rounded-full shadow-lg text-lg border-none hover:bg-pink-600">Yes</button>
-                <button id="no-btn" class="btn btn-outline btn-error px-10 rounded-full shadow-md text-lg">No</button>
+                <button id="yes-btn"
+                    class="btn btn-secondary px-8 rounded-full shadow-lg text-lg border-none">হ্যাঁ</button>
+                <button id="no-btn" class="btn btn-outline btn-error px-8 rounded-full shadow-md text-lg bg-white">না</button>
             </div>
         </div>
     </div>
 
     <dialog id="success_modal" class="modal">
-        <div class="modal-box text-center bg-white border-8 border-pink-100 rounded-3xl">
-            <h3 class="font-black text-4xl text-pink-500 mb-4">Yay! I knew it! ❤️</h3>
-            <p class="text-lg text-gray-500 italic">"I love you more than coding!"</p>
+        <div class="modal-box text-center bg-white border-8 border-pink-100 rounded-[2.5rem]">
+            <h3 class="font-black text-3xl text-pink-500 mb-2">আমি জানতাম! ❤️</h3>
+            <p class="text-lg text-gray-500 italic">"জাহিদ এখন পৃথিবীর সবচেয়ে সুখী মানুষ!"</p>
             <div class="modal-action justify-center">
                 <form method="dialog">
-                    <button class="btn btn-secondary rounded-full px-8">Love You Too!</button>
+                    <button class="btn btn-secondary rounded-full px-10">Love You Too!</button>
                 </form>
             </div>
         </div>
@@ -57,71 +67,67 @@
         const noBtn = document.getElementById('no-btn');
         const yesBtn = document.getElementById('yes-btn');
         const displayText = document.getElementById('display-text');
-        const mainGif = document.getElementById('main-gif');
         const container = document.querySelector('.interaction-area');
 
-        // মজার কিছু মেসেজ
         const messages = [
-            // "Are you sure? 😮",
-            // "Jahid is sad now... 😢",
-            // "Think again! 🧐",
-            // "Don't do this to me! 💔",
-            // "You're clicking the wrong one! ☝️",
-            // "Is that a NO? No way! 🙅‍♂️"
-            ""
+            "এটা কি 'না'? একদমই না! 🙅‍♂️",
+            "শিওর তো? 😮",
+            "ভেবে দেখো... 😢",
+            "আরেকবার! 🧐",
+            "এমন করো না! 💔",
+            "ভুল বাটন! ☝️",
+            "উফফ! পারলা না 🙅‍♂️",
+            "তুমি কি সত্যি নিশ্চিত? 😮",
+            "জাহিদ কিন্তু খুব দুঃখ পাবে... 😢",
+            "আবার ভেবে দেখো! 🧐",
+            "আমার সাথে এমনটা করো না! 💔",
+            "তুমি ভুল বাটনে ক্লিক করছো! ☝️",
+            "একটু দয়া করো প্রিয়! ✨",
+            "না বলা বারণ! 🚫"
         ];
 
-        function moveButton() {
+        function moveButton(e) {
+            // পজিশন 'Absolute' করা
             if (!noBtn.classList.contains('moved')) {
                 noBtn.classList.add('moved');
             }
 
-            // বাটন সরানোর সাথে সাথে লেখা পরিবর্তন
+            // লেখা পরিবর্তন
             const randomMsg = messages[Math.floor(Math.random() * messages.length)];
             displayText.innerText = randomMsg;
-            displayText.classList.add('scale-110', 'text-red-500');
-            
-            // GIF পরিবর্তন (অপশনাল: চাইলে অন্য কোনো লিঙ্কে দিতে পারেন)
-            // mainGif.src = "another_gif_url"; 
 
-            const containerWidth = container.clientWidth;
-            const containerHeight = container.clientHeight;
-            
+            // কন্টেইনারের সীমানা মাপা
+            const rect = container.getBoundingClientRect();
             const btnWidth = noBtn.offsetWidth;
             const btnHeight = noBtn.offsetHeight;
 
-            const newLeft = Math.random() * (containerWidth - btnWidth);
-            const newTop = Math.random() * (containerHeight - btnHeight);
+            // র‍্যান্ডম পজিশন (কন্টেইনারের ভেতরে)
+            const newLeft = Math.random() * (rect.width - btnWidth);
+            const newTop = Math.random() * (rect.height - btnHeight);
 
-            noBtn.style.left = newLeft + 'px';
-            noBtn.style.top = newTop + 'px';
-
-            setTimeout(() => {
-                displayText.classList.remove('scale-110');
-            }, 200);
+            noBtn.style.left = `${newLeft}px`;
+            noBtn.style.top = `${newTop}px`;
         }
 
-        // মাউস এবং টাচ ইভেন্ট
-        noBtn.addEventListener('mouseover', moveButton);
+        // ডেস্কটপের জন্য মাউস ওভার
+        noBtn.addEventListener('mouseenter', moveButton);
+
+        // মোবাইলের জন্য টাচ ইভেন্ট
         noBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault();
+            e.preventDefault(); // ক্লিক হওয়া আটকাবে
             moveButton();
         });
 
-        // 'Yes' ক্লিক করলে কনফেটি ইফেক্ট
+        // 'Yes' ক্লিক করলে সেলিব্রেশন
         yesBtn.addEventListener('click', () => {
-            // কনফেটি লাঞ্চ করা
             confetti({
-                particleCount: 150,
+                particleCount: 100,
                 spread: 70,
-                origin: { y: 0.6 },
-                colors: ['#ff69b4', '#ff1493', '#ffffff']
+                origin: { y: 0.6 }
             });
-
-            document.getElementById('success_modal').showModal();
-            displayText.innerText = "Do you love me? 🥰";
-            displayText.classList.remove('text-red-500');
+            success_modal.showModal();
         });
     </script>
 </body>
+
 </html>
