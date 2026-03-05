@@ -138,24 +138,32 @@
         //     // ৩. মডাল দেখানো
         //     success_modal.showModal();
         // });
-        yesBtn.addEventListener('click', () => {
-    // কনফেটি সেলিব্রেশন
+yesBtn.addEventListener('click', () => {
+    // ১. কনফেটি সেলিব্রেশন
     confetti({
         particleCount: 150,
         spread: 70,
         origin: { y: 0.6 }
     });
 
-    // আপনার ফোন নম্বর (Country code সহ)
-    const myNumber = "8801516569041"; 
+    // ২. সাকসেস মেসেজ বা মডাল দেখানো
+    if (typeof success_modal !== 'undefined') {
+        success_modal.showModal();
+    }
+
+    // ৩. আপনার ফোন নম্বর ও মেসেজ
+    const myNumber = "8801516569041"; // নম্বর ঠিক আছে
     const text = "আমি তোমাকে ভালোবাসি! 🥰❤️";
 
-    // সাকসেস মেসেজ দেখানো
-    success_modal.showModal();
-
-    // ৩ সেকেন্ড পর সরাসরি হোয়াটসঅ্যাপে নিয়ে যাবে
+    // ৪. ২.৫ সেকেন্ড পর হোয়াটসঅ্যাপ ওপেন হবে
     setTimeout(() => {
-        window.location.href = `https://api.whatsapp.com/send?phone=${myNumber}&text=${encodeURIComponent(text)}`;
+        const whatsappUrl = `https://api.whatsapp.com/send?phone=${myNumber}&text=${encodeURIComponent(text)}`;
+        
+        // মোবাইল এবং পিসিতে কাজ করার জন্য window.open ব্যবহার করা ভালো
+        window.open(whatsappUrl, '_blank'); 
+        
+        // যদি window.open কাজ না করে তবে নিচেরটা ব্যাকআপ হিসেবে কাজ করবে
+        // window.location.href = whatsappUrl; 
     }, 2500);
 });
     </script>
