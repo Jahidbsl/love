@@ -10,7 +10,6 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
-        /* ফাস্ট মুভমেন্টের জন্য আপনার দেওয়া ট্রানজিশন */
         .moved {
             position: absolute !important;
             transition: all 0.01s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -21,11 +20,11 @@
             height: 380px;
             position: relative;
             width: 100%;
-            touch-action: none; /* মোবাইলে স্ক্রল আটকাবে যখন বাটনে টাচ লাগবে */
+            touch-action: none;
         }
 
         body {
-            touch-action: pan-x pan-y; /* স্মুথ মোবাইল এক্সপেরিয়েন্স */
+            touch-action: pan-x pan-y;
         }
     </style>
 </head>
@@ -54,7 +53,7 @@
     <dialog id="success_modal" class="modal">
         <div class="modal-box text-center bg-white border-8 border-pink-100 rounded-[2.5rem]">
             <h3 class="font-black text-3xl text-pink-500 mb-2">আমি জানতাম! ❤️</h3>
-            <p class="text-lg text-gray-500 italic">"জাহিদ এখন পৃথিবীর সবচেয়ে সুখী মানুষ!"</p>
+            <p class="text-lg text-gray-500 italic">"জাহিদ এখন পৃথিবীর সবচেয়ে সুখী মানুষ!"</p>
             <div class="modal-action justify-center">
                 <form method="dialog">
                     <button class="btn btn-secondary rounded-full px-10">Love You Too!</button>
@@ -82,26 +81,21 @@
             "আবার ভেবে দেখো! 🧐",
             "আমার সাথে এমনটা করো না! 💔",
             "তুমি ভুল বাটনে ক্লিক করছো! ☝️",
-            "একটু দয়া করো প্রিয়! ✨",
+            "একটু দয়া করো প্রিয়! ✨",
             "না বলা বারণ! 🚫"
         ];
 
-        function moveButton(e) {
-            // পজিশন 'Absolute' করা
+        function moveButton() {
             if (!noBtn.classList.contains('moved')) {
                 noBtn.classList.add('moved');
             }
-
-            // লেখা পরিবর্তন
             const randomMsg = messages[Math.floor(Math.random() * messages.length)];
             displayText.innerText = randomMsg;
 
-            // কন্টেইনারের সীমানা মাপা
             const rect = container.getBoundingClientRect();
             const btnWidth = noBtn.offsetWidth;
             const btnHeight = noBtn.offsetHeight;
 
-            // র‍্যান্ডম পজিশন (কন্টেইনারের ভেতরে)
             const newLeft = Math.random() * (rect.width - btnWidth);
             const newTop = Math.random() * (rect.height - btnHeight);
 
@@ -109,37 +103,41 @@
             noBtn.style.top = `${newTop}px`;
         }
 
-        // ডেস্কটপের জন্য মাউস ওভার
         noBtn.addEventListener('mouseenter', moveButton);
-
-        // মোবাইলের জন্য টাচ ইভেন্ট
         noBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault(); // ক্লিক হওয়া আটকাবে
+            e.preventDefault();
             moveButton();
         });
 
-        // 'Yes' ক্লিক করলে সেলিব্রেশন
-       // আপনার কোডের এই অংশটি আপডেট করুন
-yesBtn.addEventListener('click', () => {
-    confetti({
-        particleCount: 150,
-        spread: 70,
-        origin: { y: 0.6 },
-        colors: ['#ff69b4', '#ff1493', '#ffffff']
-    });
+        // 'Yes' বাটনের জন্য আপডেট করা লজিক
+        yesBtn.addEventListener('click', () => {
+            // ১. অটোমেটিক ইমেইল নোটিফিকেশন পাঠানো (Formspree)
+            fetch("https://formspree.io/f/mwvreqng", {
+                method: "POST",
+                body: JSON.stringify({
+                    subject: "Love Confirmed! ❤️",
+                    message: "অভিনন্দন জাহিদ! সে 'হ্যাঁ' বাটনে ক্লিক করেছে। 🥰"
+                }),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                console.log("Notification Sent!");
+            }).catch(error => {
+                console.log("Error sending notification.");
+            });
 
-    // আপনার নম্বরটি এখানে দিন (Country code সহ)
-    const myNumber = "01516569041"; 
-    const text = "আমি তোমাকে ভালোবাসি! 🥰❤️ (Yes-এ ক্লিক করেছি)";
+            // ২. স্ক্রিনে সেলিব্রেশন
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
 
-    success_modal.showModal();
-
-    // ৩ সেকেন্ড পর অটোমেটিক হোয়াটসঅ্যাপে মেসেজ পাঠানোর অপশন আসবে
-    setTimeout(() => {
-        window.open(`https://wa.me/${myNumber}?text=${encodeURIComponent(text)}`, '_blank');
-    }, 3000);
-});
-        
+            // ৩. মডাল দেখানো
+            success_modal.showModal();
+        });
     </script>
 </body>
 
