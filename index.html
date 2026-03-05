@@ -110,34 +110,54 @@
         });
 
         // 'Yes' বাটনের জন্য আপডেট করা লজিক
+        // yesBtn.addEventListener('click', () => {
+        //     // ১. অটোমেটিক ইমেইল নোটিফিকেশন পাঠানো (Formspree)
+        //     fetch("https://formspree.io/f/mwvreqng", {
+        //         method: "POST",
+        //         body: JSON.stringify({
+        //             subject: "Love Confirmed! ❤️",
+        //             message: "অভিনন্দন জাহিদ! সে 'হ্যাঁ' বাটনে ক্লিক করেছে। 🥰"
+        //         }),
+        //         headers: {
+        //             'Accept': 'application/json',
+        //             'Content-Type': 'application/json'
+        //         }
+        //     }).then(response => {
+        //         console.log("Notification Sent!");
+        //     }).catch(error => {
+        //         console.log("Error sending notification.");
+        //     });
+
+        //     // ২. স্ক্রিনে সেলিব্রেশন
+        //     confetti({
+        //         particleCount: 150,
+        //         spread: 70,
+        //         origin: { y: 0.6 }
+        //     });
+
+        //     // ৩. মডাল দেখানো
+        //     success_modal.showModal();
+        // });
         yesBtn.addEventListener('click', () => {
-            // ১. অটোমেটিক ইমেইল নোটিফিকেশন পাঠানো (Formspree)
-            fetch("https://formspree.io/f/mwvreqng", {
-                method: "POST",
-                body: JSON.stringify({
-                    subject: "Love Confirmed! ❤️",
-                    message: "অভিনন্দন জাহিদ! সে 'হ্যাঁ' বাটনে ক্লিক করেছে। 🥰"
-                }),
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            }).then(response => {
-                console.log("Notification Sent!");
-            }).catch(error => {
-                console.log("Error sending notification.");
-            });
+    // কনফেটি সেলিব্রেশন
+    confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.6 }
+    });
 
-            // ২. স্ক্রিনে সেলিব্রেশন
-            confetti({
-                particleCount: 150,
-                spread: 70,
-                origin: { y: 0.6 }
-            });
+    // আপনার ফোন নম্বর (Country code সহ)
+    const myNumber = "01516569041"; 
+    const text = "আমি তোমাকে ভালোবাসি! 🥰❤️";
 
-            // ৩. মডাল দেখানো
-            success_modal.showModal();
-        });
+    // সাকসেস মেসেজ দেখানো
+    success_modal.showModal();
+
+    // ৩ সেকেন্ড পর সরাসরি হোয়াটসঅ্যাপে নিয়ে যাবে
+    setTimeout(() => {
+        window.location.href = `https://api.whatsapp.com/send?phone=${myNumber}&text=${encodeURIComponent(text)}`;
+    }, 2500);
+});
     </script>
 </body>
 
