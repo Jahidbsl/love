@@ -119,14 +119,27 @@
         });
 
         // 'Yes' ক্লিক করলে সেলিব্রেশন
-        yesBtn.addEventListener('click', () => {
-            confetti({
-                particleCount: 100,
-                spread: 70,
-                origin: { y: 0.6 }
-            });
-            success_modal.showModal();
-        });
+       // আপনার কোডের এই অংশটি আপডেট করুন
+yesBtn.addEventListener('click', () => {
+    confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ['#ff69b4', '#ff1493', '#ffffff']
+    });
+
+    // আপনার নম্বরটি এখানে দিন (Country code সহ)
+    const myNumber = "01516569041"; 
+    const text = "আমি তোমাকে ভালোবাসি! 🥰❤️ (Yes-এ ক্লিক করেছি)";
+
+    success_modal.showModal();
+
+    // ৩ সেকেন্ড পর অটোমেটিক হোয়াটসঅ্যাপে মেসেজ পাঠানোর অপশন আসবে
+    setTimeout(() => {
+        window.open(`https://wa.me/${myNumber}?text=${encodeURIComponent(text)}`, '_blank');
+    }, 3000);
+});
+        
     </script>
 </body>
 
